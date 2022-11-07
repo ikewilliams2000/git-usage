@@ -1,0 +1,48 @@
+Call:
+lm(formula = percentage ~ year, data = sods_data)
+
+Residuals:
+     1      2      3      4      5 
+ 1.322 -6.533  7.589 -4.565  2.187 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)  
+(Intercept) -7744.919   2757.118  -2.809   0.0673 .
+year            3.877      1.366   2.838   0.0657 .
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 6.523 on 3 degrees of freedom
+Multiple R-squared:  0.7286,	Adjusted R-squared:  0.6382 
+F-statistic: 8.055 on 1 and 3 DF,  p-value: 0.06574
+
+function (file = NULL, append = FALSE, type = c("output", "message"), 
+    split = FALSE) 
+{
+    type <- match.arg(type)
+    if (type == "message") {
+        if (is.null(file)) 
+            file <- stderr()
+        else if (!inherits(file, "connection") || !isOpen(file)) 
+            stop("'file' must be NULL or an already open connection")
+        if (split) 
+            stop("cannot split the message connection")
+        .Internal(sink(file, FALSE, TRUE, FALSE))
+    }
+    else {
+        closeOnExit <- FALSE
+        if (is.null(file)) 
+            file <- -1L
+        else if (is.character(file)) {
+            file <- file(file, if (append) 
+                "a"
+            else "w")
+            closeOnExit <- TRUE
+        }
+        else if (!inherits(file, "connection")) 
+            stop("'file' must be NULL, a connection or a character string")
+        .Internal(sink(file, closeOnExit, FALSE, split))
+    }
+}
+<bytecode: 0x7fcde60170b0>
+<environment: namespace:base>
